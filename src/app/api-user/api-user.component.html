@@ -1,0 +1,50 @@
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<select [ngModel]="selected" class="form-control" (change)="sondageChange($event.target.value)">
+
+  <option *ngFor="let u of sondages  " [value]="u.id">
+    <label for="quest"> Formulaire n° {{u.id}} : </label> {{u.titre}} {{u.contenu}}
+    <!--{{u.Composant.Question.id}}-->
+  </option>
+
+</select>
+<br />
+<section *ngIf="selected">
+  <select [(ngModel)]="selectedQ" class="form-control" (ngModelChange)="questionChange($event)">
+
+    <option *ngFor="let question of composants; let i = index" [ngValue]="question">
+      <!--; let i = index [questions.id]=i-->
+      <label for="quest"> Q n° {{i+1}} : </label> {{question.Question.contenu}}
+    </option>
+  </select>
+</section>
+<br />
+<form (ngSubmit)="onSubmit($event)">
+  <section *ngIf="selectedQ && typeQuestion == 1;">
+    <p *ngFor="let rep of reponses">
+      <input type="radio" name="reponse" [(ngModel)]="selectedRep" value="{{rep.contenu}}">{{rep.contenu}}
+    </p>
+  </section>
+  <section *ngIf="selectedQ && typeQuestion == 2;">
+    <p *ngFor="let rep of reponses">
+      <input type="checkbox" name="reponse" [(ngModel)]="selectedRep" value="{{rep.contenu}}">{{rep.contenu}}
+    </p>
+  </section>
+  <section *ngIf="selectedQ && typeQuestion == 3;">
+      <textarea [(ngModel)]="selectedRep" name="reponse" rows="10" cols="30"></textarea>
+  </section>
+  <br />
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+
+
+
+<!--<ul>
+    <li *ngFor="let u of sondages"> {{u.titre}} {{u.contenu}}</li>
+</ul>-->
